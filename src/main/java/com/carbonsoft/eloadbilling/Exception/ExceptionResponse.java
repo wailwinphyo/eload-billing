@@ -1,4 +1,4 @@
-package com.carbonsoft.eloadbilling.Exceptions;
+package com.carbonsoft.eloadbilling.Exception;
 
 import java.util.Date;
 

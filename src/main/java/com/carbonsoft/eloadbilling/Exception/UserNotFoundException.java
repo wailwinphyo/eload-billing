@@ -1,4 +1,4 @@
-package com.carbonsoft.eloadbilling.Exceptions;
+package com.carbonsoft.eloadbilling.Exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

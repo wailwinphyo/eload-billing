@@ -1,4 +1,4 @@
-package com.carbonsoft.eloadbilling.Exceptions;
+package com.carbonsoft.eloadbilling.Exception;
 
 import java.util.Date;
 import java.util.Map;
@@ -24,7 +24,7 @@ public class CustomizedResponseExceptionHandler extends ResponseEntityExceptionH
 		ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), ex.getMessage(),
 				request.getDescription(false));
 
-		return new ResponseEntity(exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+		return new ResponseEntity<ExceptionResponse>(exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
 	@ExceptionHandler(UserNotFoundException.class)
@@ -32,7 +32,7 @@ public class CustomizedResponseExceptionHandler extends ResponseEntityExceptionH
 		ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), ex.getMessage(),
 				request.getDescription(false));
 
-		return new ResponseEntity(exceptionResponse, HttpStatus.NOT_FOUND);
+		return new ResponseEntity<ExceptionResponse>(exceptionResponse, HttpStatus.NOT_FOUND);
 	}
 
 	@Override

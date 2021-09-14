@@ -1,0 +1,7 @@
+spring:
+  jpa:
+    hibernate: 
+      ddl-auto: update  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver    url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/eload_billing
+    username: root
+    password: root

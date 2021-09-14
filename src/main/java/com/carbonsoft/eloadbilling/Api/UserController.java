@@ -1,7 +1,9 @@
-package com.carbonsoft.eloadbilling.Controllers;
+package com.carbonsoft.eloadbilling.Api;
 
 import java.net.URI;
-import java.util.Optional;
+import java.util.List;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -9,26 +11,28 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.carbonsoft.eloadbilling.Exceptions.UserNotFoundException;
-import com.carbonsoft.eloadbilling.Models.User;
-import com.carbonsoft.eloadbilling.Models.Enums.RoleEnum;
-import com.carbonsoft.eloadbilling.Models.Enums.StatusEnum;
-import com.carbonsoft.eloadbilling.Repository.UserRepositoryInterface;
+import com.carbonsoft.eloadbilling.Entity.User;
+import com.carbonsoft.eloadbilling.Model.UserDto;
+import com.carbonsoft.eloadbilling.Service.UserService;
+
+import io.swagger.annotations.Api;
 
 @RestController
+@RequestMapping("/api")
+@Api(tags = { "User" })
 public class UserController {
 
 	@Autowired
-	private UserRepositoryInterface userRepository;
+	UserService userService;
 
 	@PostMapping("/users")
-	public ResponseEntity<?> CreateUser(@RequestBody User user) {
-		user.setRole(RoleEnum.user);
-		user.setStatus(StatusEnum.active);
-		User savedUser = userRepository.save(user);
+	public ResponseEntity<?> createUser(@Valid @RequestBody UserDto userDto) {
+		User savedUser = userService.SaveUser(userDto);
+
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(savedUser.getId())
 				.toUri();
 
@@ -36,12 +40,15 @@ public class UserController {
 	}
 
 	@GetMapping("/users/{id}")
-	public User getUsers(@PathVariable("id") Integer id) {
-		Optional<User> user = userRepository.findById(id);
-		if (!user.isPresent())
-			throw new UserNotFoundException("id - " + id);
+	public UserDto getUsers(@PathVariable("id") Integer id) {
+		UserDto userDto = userService.getUserDetail(id);
+		return userDto;
+	}
 
-		return user.get();
+	@GetMapping("/users")
+	public List<UserDto> getAllUsers() {
+		List<UserDto> userDtos = userService.getAllUsers();
+		return userDtos;
 	}
 
 }

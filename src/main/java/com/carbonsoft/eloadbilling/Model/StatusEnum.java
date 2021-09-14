@@ -1,4 +1,4 @@
-package com.carbonsoft.eloadbilling.Models.Enums;
+package com.carbonsoft.eloadbilling.Model;
 
 public enum StatusEnum {
 	active("ACTIVE"), inactive("INACTIVE");
